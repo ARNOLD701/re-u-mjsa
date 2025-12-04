@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Reçu MJSA</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <h1>Générateur de Reçu d'Inscription MJSA</h1>
+    
+    <div class="container">
+        <div class="form-section">
+            <h2>Formulaire de Saisie</h2>
+            <form id="receiptForm">
+                <div class="form-group">
+                    <label for="nomPrenom">Nom et Prénoms:</label>
+                    <input type="text" id="nomPrenom" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="civilite">Civilité:</label>
+                    <select id="civilite" required>
+                        <option value="M.">M.</option>
+                        <option value="Mme">Mme</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="categorie">Catégorie:</label>
+                    <input type="text" id="categorie" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="situationMouvement">Situation dans le mouvement:</label>
+                    <select id="situationMouvement" required>
+                        <option value="">Sélectionnez une option</option>
+                        
+                        <option value="Nouveau">Nouveau</option>
+                        <option value="Ancien">Ancien</option>
+                        <option value="Responsable">Responsable</option>
+                    </select>
+                    <div class="calculation-info">Détermine automatiquement le montant prévu</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="montantPrevu">Montant Prévu (FCFA):</label>
+                    <input type="text" id="montantPrevu" class="montant-auto" readonly>
+                    <div class="calculation-info">Calculé automatiquement selon la situation</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="montantVerse">Montant Versé (FCFA):</label>
+                    <input type="number" id="montantVerse" required min="0">
+                    <div class="calculation-info">Montant actuellement payé</div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Montant Restant (FCFA):</label>
+                    <input type="text" id="montantRestant" readonly style="background-color: #f9f9f9;">
+                    <div class="calculation-info">Calculé automatiquement: Montant Prévu - Montant Versé</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="identifiant">Identifiant:</label>
+                    <input type="text" id="identifiant" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dateFait">Date:</label>
+                    <input type="date" id="dateFait" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="photoUpload">Photo (optionnelle):</label>
+                    <input type="file" id="photoUpload" accept="image/*">
+                </div>
+                
+                <button type="button" id="generateBtn">Générer le Reçu</button>
+                <button type="button" id="downloadBtn" class="hidden">Télécharger en PDF</button>
+            </form>
+        </div>
+        
+        <div class="preview-section">
+            <h2>Aperçu du Reçu</h2>
+            <div id="receiptPreview" class="receipt">
+                <div class="receipt-title">Reçu d'inscription mjsa 2025-2026</div>
+                
+                <div class="receipt-field">
+                    <strong>Nom et prénoms:</strong> <span id="previewNomPrenom">M. (nom et prénoms de la personne)</span>
+                </div>
+                
+                <div class="receipt-field">
+                    <strong>Catégorie:</strong> <span id="previewCategorie">(catégorie de la personne)</span>
+                </div>
+                
+                <div class="receipt-field">
+                    <strong>Situation:</strong> <span id="previewSituation">(situation dans le mouvement)</span>
+                </div>
+                
+                <div class="receipt-field">
+                    <strong>Montant prévu:</strong> <span id="previewMontantPrevu">(montant total prévu en FCFA)</span>
+                </div>
+                
+                <div class="receipt-field">
+                    <strong>Comme donnée:</strong> <span id="previewMontantVerse">(comme écrite avec pour monnaie FCFA)</span>
+                </div>
+                
+                <div class="receipt-field">
+                    <strong>Comme restante:</strong> <span id="previewMontantRestant">(le restant de la somme indiqué-la somme écrite avec pour monnaie FCFA)</span>
+                </div>
+                
+                <hr>
+                
+                <div class="photo-section">
+                    <div id="photoPlaceholder">Cette partie est pour la photo de la personne</div>
+                    <img id="previewImage" class="hidden">
+                </div>
+                
+                <div class="receipt-field">
+                    <strong>Identifiant:</strong> <span id="previewIdentifiant">(numéro de passage indiquée)</span>
+                </div>
+                
+                <div class="receipt-footer">
+                    <div>Fait le <span id="previewDate">(date du jour)</span></div>
+                    <div>La trésorerie</div>
+                </div>
+            </div>
+            
+            <button type="button" id="previewDownloadBtn" class="hidden">Télécharger en PDF</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
