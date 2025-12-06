@@ -96,7 +96,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const civilite = document.getElementById('civilite').value;
                 const nomPrenom = document.getElementById('nomPrenom').value;
                 const categorie = document.getElementById('categorie').value;
-                const situation = document.getElementById('situationMouvement').value;
                 const montantPrevu = montantPrevuInput.value;
                 const montantVerse = document.getElementById('montantVerse').value;
                 const montantRestant = montantRestantInput.value;
@@ -107,8 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('previewNomPrenom').textContent = 
                     civilite + ' ' + nomPrenom;
                 document.getElementById('previewCategorie').textContent = categorie;
-                document.getElementById('previewSituation').textContent = 
-                    situation || '(situation dans le mouvement)';
                 document.getElementById('previewMontantPrevu').textContent = 
                     montantPrevu || '(montant total prévu en FCFA)';
                 document.getElementById('previewMontantVerse').textContent = 
